@@ -1,0 +1,7 @@
+select: SELECT brands.id id_brand,
+               brands.description brand,
+               models.id id_model,
+               models.description model
+          FROM tb_car_brands brands
+    INNER JOIN tb_car_models models ON brands.id = models.id_brand
+      ORDER BY brands.description, models.description
