@@ -1,0 +1,18 @@
+server:
+  port: 9090
+
+
+integration:
+  url-car-search: http://172.17.0.3:8080/vehicle/all
+
+
+spring:
+  data:
+    redis:
+      host: 192.168.1.109
+      port: 6379
+      timeout: 60000
+      lettuce:
+        pool:
+          max-active: 1
+          max-idle: 1
