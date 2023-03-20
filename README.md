@@ -217,6 +217,12 @@ No segundo teste o **Redis** está fora do ar, e com isso o **Circuit Breaker** 
 
 ![images/api_rest_test.png](images/api_rest_test.png)
 
+## 🔩 Dados no Redis Desktop Manager.
+
+Consulta no Redis para ver os dados migrados do MySQL.
+
+![images/redis_desktop_manager.png](images/redis_desktop_manager.png)
+
 ## 📌 Versão
 
 1.0
