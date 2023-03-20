@@ -1,12 +1,12 @@
-# PROJETO PARA MOSTRAR COMO FUNCIONA O QUARTZ, REDIS E RESILIENCE4J
+# PROJETO PARA MOSTRAR COMO FUNCIONA O QUARTZ, REDIS E RESILIENCE4J.
 
 Os serviços desse projeto foram desenvolvidos usando Java e Kotlin.
 
 ## ⚙️ Código fonte
 
 * [ms-car-search](ms-car-search) - Esse serviço tem a funcionalidade de consultar os dados dos veículos no MySQL.
-* [ms-car-schedule](ms-car-schedule) - Esse serviço tem a funcionalidade de consultar os veículos no serviço [ms-car-search](ms-car-search) e enviar para o Redis. 
-* [ms-car-integration](ms-car-integration) - Esse serviço tem a funcionalide de buscar os dados no Redis, e caso o Redis esteja fora do ar, ele vai buscar os dados no serviço [ms-car-search](ms-car-search).
+* [ms-car-schedule](ms-car-schedule) - Esse serviço tem a funcionalidade de consultar os veículos no serviço [ms-car-search](ms-car-search) e enviar para o Redis, isso é feito atráves do Quartz 
+* [ms-car-integration](ms-car-integration) - Esse serviço tem a funcionalide de buscar os dados no Redis, e caso o Redis esteja fora do ar, ele vai buscar os dados no serviço [ms-car-search](ms-car-search), essa funcionalidade só é possível por conta do Resilience4j.
 
 ## 🚀 Começando
 
@@ -78,13 +78,13 @@ docker pull redis
 docker run -p 6379:6379 --name server-redis -d --network=ciceroednilson redis --appendonly yes
 ~~~~
 
-## ⚙️ Criando Banco de Dados no MySQL.
+## ⚙️ Criando o Banco de Dados no MySQL.
 
 ~~~~sql
 CREATE DATABASE `db_vehicles`;
 ~~~~
 
-## ⚙️ Criando a tabela de Marcos de Veículos.
+## ⚙️ Criando a tabela de marcas de veículos.
 
 ~~~~sql
 CREATE TABLE IF NOT EXISTS tb_car_brands(
@@ -93,7 +93,7 @@ CREATE TABLE IF NOT EXISTS tb_car_brands(
 );
 ~~~~
 
-## ⚙️ Criando a tabela de Modelos de Veículos.
+## ⚙️ Criando a tabela de modelos de veículos.
 
 ~~~~sql
 CREATE TABLE IF NOT EXISTS tb_car_models(
@@ -140,14 +140,14 @@ IGNORE 1 ROWS;
 
 ## ⚙️ Docker - Criando o container do serviço ms-car-search.
 
-Antes de criarmos a imagem e container para o serviço de buscar no MySQL, devemos pegar o ip do container, podemos fazer isso executando o comando abaixo.
+Antes de criarmos a imagem e o container para o serviço de busca no MySQL, devemos pegar o IP do container, podemos fazer isso executando o comando abaixo.
 
 ~~~~shell
 docker inspect \
-  -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ID_DO_CONTAINER
+  -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ID_DO_CONTAINER_MYSQL
 ~~~~
 
-Depois de pegar o IP do container do MySQL, devemos adicionar ao arquivo application.yml na configuração de acesso ao banco.
+Depois de pegar o IP do container do MySQL, devemos adicionar ao arquivo **application.yml** na configuração de acesso ao banco.
 
 ![images/ip_mysql.png](images/ip_mysql.png)
 
@@ -163,11 +163,11 @@ docker run -d -p 8080:8080 img-ms-car-search:latest --hostname ms-car-search --n
 
 ## ⚙️ Docker - Criando o container do serviço ms-car-schedule.
 
-Antes de criar a imagem, devemos pegar o IP do container do Redis e do serviço ms-car-search, e então alterar o arquivo appication.yml
+Antes de criar a imagem, devemos pegar o IP do container do **Redis** e do serviço **ms-car-search**, e então alterar o arquivo **appication.yml**.
 
 ![images/ip_redis_and_car_search.png](images/ip_redis_and_car_search.png)
 
-Caso o container desse projeto tenha problema ao acessar o container do Redis, podemos colocar o IP da máquina HOST.
+Caso o container desse projeto tenha problema ao acessar o container do **Redis**, podemos colocar o IP da máquina **HOST**.
 
 Na pasta raiz do projeto, basta executar o comando abaixo para a criação da imagem.
 ~~~~shell
@@ -182,11 +182,11 @@ docker run -d -p 9090:9090 img-ms-car-schedule:latest --hostname ms-car-schedule
 
 ## ⚙️ Docker - Criando o container do serviço ms-car-integration.
 
-Antes de criar a imagem e o container, precisamos pegar o IP do Redis e do serviço ms-car-search, e então adiconar ao application.yml do serviço.
+Antes de criar a imagem e o container, precisamos pegar o IP do **Redis** e do serviço **ms-car-search**, e então adiconar ao **application.yml** do serviço.
 
 ![images/config_to_integration.png](images/config_to_integration.png)
 
-Caso o container desse projeto tenha problema ao acessar o container do Redis, podemos colocar o IP da máquina HOST.
+Caso o container desse projeto tenha problema ao acessar o container do **Redis**, podemos colocar o IP da máquina HOST.
 
 Na pasta raiz do projeto, basta executar o comando abaixo para a criação da imagem.
 ~~~~shell
@@ -209,11 +209,11 @@ docker container ps
 
 ## 🔩 Testando a API pelo Postman. 
 
-No primeiro teste vamos ver que os dados estão sendo retornado do Redis através do campo "origen".
+No primeiro teste vamos ver que os dados estão sendo retornado do **Redis** através do campo "origin".
 
 ![images/api_redis_test.png](images/api_redis_test.png)
 
-No Segundo teste o Redis está fora do ar, e com isso o Circuit breaker vai transferir a consulta para a api ms-car-search. 
+No segundo teste o **Redis** está fora do ar, e com isso o **Circuit Breaker** vai transferir a consulta para a api **ms-car-search**. 
 
 ![images/api_rest_test.png](images/api_rest_test.png)
 
