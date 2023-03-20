@@ -11,6 +11,6 @@ import java.util.List;
 @Builder
 public class Response {
 
-    private String origen;
+    private String origin;
     private List<Vehicle> vehicles;
 }

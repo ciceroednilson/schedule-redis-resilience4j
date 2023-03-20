@@ -41,7 +41,7 @@ public class VehicleService {
         listVehicle.sort(Comparator.comparing(Vehicle::getDescription));
         return Response
                 .builder()
-                .origen("REST")
+                .origin("REST")
                 .vehicles(listVehicle)
                 .build();
     }
@@ -56,7 +56,7 @@ public class VehicleService {
         listVehicle.sort(Comparator.comparing(Vehicle::getDescription));
         return Response
                 .builder()
-                .origen("REDIS")
+                .origin("REDIS")
                 .vehicles(listVehicle)
                 .build();
 
