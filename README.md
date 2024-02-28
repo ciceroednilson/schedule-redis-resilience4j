@@ -1,16 +1,16 @@
-# PROJETO PARA MOSTRAR COMO FUNCIONA O QUARTZ, REDIS E RESILIENCE4J.
+# PROJETO PARA MOSTRAR COMO FUNCIONA O SCHEDULE, REDIS E RESILIENCE4J.
 
 Os serviços desse projeto foram desenvolvidos usando Java e Kotlin.
 
 ## ⚙️ Código fonte
 
 * [ms-car-search](ms-car-search) - Esse serviço tem a funcionalidade de consultar os dados dos veículos no MySQL.
-* [ms-car-schedule](ms-car-schedule) - Esse serviço tem a funcionalidade de consultar os veículos no serviço [ms-car-search](ms-car-search) e enviar para o Redis, isso é feito atráves do Quartz 
+* [ms-car-schedule](ms-car-schedule) - Esse serviço tem a funcionalidade de consultar os veículos no serviço [ms-car-search](ms-car-search) e enviar para o Redis, isso é feito atráves do Schedule. 
 * [ms-car-integration](ms-car-integration) - Esse serviço tem a funcionalide de buscar os dados no Redis, e caso o Redis esteja fora do ar, ele vai buscar os dados no serviço [ms-car-search](ms-car-search), essa funcionalidade só é possível por conta do Resilience4j.
 
 ## 🚀 Começando
 
-Esse projeto tem como principal objetivo mostrar o uso do Quartiz e Resilience4j.
+Esse projeto tem como principal objetivo mostrar o uso do Schedule e Resilience4j.
 
 ## 🛠 Tecnologias usadas no projeto
 
@@ -21,7 +21,6 @@ Esse projeto tem como principal objetivo mostrar o uso do Quartiz e Resilience4j
   <li>Postman</li>
   <li>Mysql</li>
   <li>Mysql Workbench</li>
-  <li>Quartz</li>
   <li>Spring Boot</li>
   <li>Redis</li>
   <li>Redis Desktop Manager</li>
